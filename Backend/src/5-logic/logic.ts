@@ -2,6 +2,7 @@ import { OkPacket } from "mysql";
 import dal from "../2-utils/dal";
 import CategoryModel from "../4-models/categoryModel";
 import ProductModel from "../4-models/productModel";
+import { ResourceNotFoundErrorModel, ValidationErrorModel } from "../4-models/error-models";
 
 async function getAllcategories():Promise<CategoryModel[]> {
     const sql=`SELECT * FROM categories`
@@ -22,6 +23,10 @@ async function getProductsBycategories(categoryId:number):Promise<CategoryModel[
 }
 
 async function addProducte(product:ProductModel):Promise<ProductModel> {
+
+    const err=product.validate()
+    if(err)throw new ValidationErrorModel(err)
+
     const sql=`
     INSERT INTO products VALUE(
         DEFAULT,
@@ -42,6 +47,8 @@ async function deleteProducte(productId:number):Promise<void> {
     const sql=`
     DELETE FROM products WHERE productID = ?`
    const info:OkPacket= await dal.execute(sql,[productId])
+
+   if(info.affectedRows===0)throw new ResourceNotFoundErrorModel(productId)
 }
 
 
