@@ -1,0 +1,4 @@
+25.5.2023, 3:12:41 	 Route /api/products not exist
+----------------------------
+25.5.2023, 3:13:04 	 ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 8
+----------------------------

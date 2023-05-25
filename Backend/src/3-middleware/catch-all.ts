@@ -6,8 +6,11 @@ function catchAll(err: any, request: Request, response: Response, next: NextFunc
     // Log the error on the console:
     console.log(err);
 
-    // Log the error to an error log file:
-    logger(err.message);
+    const status=err.status||500
+
+    if(status===500){
+        logger.logError("cathAll error",err)
+    }
 
     // Send back the error to the front:
     response.status(err.status || 500).send(err.message);
